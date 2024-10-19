@@ -1,0 +1,50 @@
+﻿@*
+    @model CSIROInterviewApp.ViewModels.HomeIndexViewModel
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSIRO Research Candidate Portal</title>
+
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Welcome to CSIRO Research Candidate Portal</h2>
+
+        <p class="mt-4">
+            This application allows candidates to apply for research positions in fields like Machine Learning and Data Science.
+            Administrators can manage and sort applications based on GPA to select the top candidates for interviews.
+        </p>
+
+        <h3>For Candidates:</h3>
+        <p>If you are a candidate, please register here:</p>
+        <a href="/User/Register" class="btn btn-primary">Register as a Candidate</a>
+
+        <h3 class="mt-4">For Administrators:</h3>
+        <p>If you are an administrator, you can log in here:</p>
+        <a href="/Account/Login" class="btn btn-secondary">Admin Login</a>
+
+        <h3 class="mt-4">Application Instructions:</h3>
+        <ol>
+            <li>Register your contact details, GPA, course, and university.</li>
+            <li>Ensure your GPA is 3.0 or higher and you’ve graduated from a top 100 university globally.</li>
+            <li>Submit your application for review by the administrators.</li>
+        </ol>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (via CDN) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

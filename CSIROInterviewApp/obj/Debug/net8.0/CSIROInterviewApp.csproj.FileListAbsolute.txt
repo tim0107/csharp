@@ -1,0 +1,9 @@
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.csproj.AssemblyReference.cache
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.AssemblyInfoInputs.cache
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.AssemblyInfo.cs
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.csproj.CoreCompileInputs.cache
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.RazorAssemblyInfo.cache
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.RazorAssemblyInfo.cs
+C:\Users\banhb\Desktop\Thursday project\CSIROInterviewApp\CSIROInterviewApp\obj\Debug\net8.0\CSIROInterviewApp.sourcelink.json
