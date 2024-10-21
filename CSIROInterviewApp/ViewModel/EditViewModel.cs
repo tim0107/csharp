@@ -4,22 +4,41 @@ namespace CSIROInterviewApp.ViewModel
 {
     public class EditViewModel
     {
+        public int Id { get; set; }
+
         [Required]
-        public required string University { get; set; }
+        [Display(Name = "Name")]
+        public string Username { get; set; }
 
         [Required]
         [Range(0.0, 4.0, ErrorMessage = "GPA must be between 0.0 and 4.0")]
-        public required double GPA { get; set; }
+        public float GPA { get; set; }
 
         [Required]
-        public required string SelectedCourse { get; set; }
+        public string University { get; set; }
 
-        public required List<string> Courses { get; set; } = new List<string>
-        {
-            "Master of Data Science",
-            "Master of Artificial Intelligence",
-            "Master of Information Technology",
-            "Master of Science (Statistics)"
-        };
+        [Required]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
+
+        
+        [Display(Name = "Cover Letter file")]
+        [DataType(DataType.Upload)]
+        public IFormFile? CoverLetterFile { get; set; }
+
+        [Display(Name = "Resume file")]
+        [DataType(DataType.Upload)]
+        public IFormFile? ResumeFile { get; set; }
+
+        [Required]
+        public string SelectedCourse { get; set; }
+
+        public List<string>? Courses { get; set; }
+
+        public string? CurrentCoverLetterFilePath { get; set; }
+        public string? CurrentResumeFilePath { get; set; }
     }
 }

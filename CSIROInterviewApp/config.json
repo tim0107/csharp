@@ -1,4 +1,4 @@
 {
   "EnableDeveloperExceptions": "True",
-  "ConnectionStrings": { "DBConnection": "Server=DESKTOP-Q3859DA\\SQLEXPRESS;Database=ResearchApplications;Uid=sa;Password=*******;Encrypt=False" }
+  "ConnectionStrings": { "DBConnection": "Server=localhost;Database=ResearchApplications;Integrated Security=True;TrustServerCertificate=True" }
 }

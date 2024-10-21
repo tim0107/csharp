@@ -6,6 +6,7 @@ namespace CSIROInterviewApp.ViewModel
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Name")]
         public required string Username { get; set; }
 
         [Required]
@@ -32,8 +33,15 @@ namespace CSIROInterviewApp.ViewModel
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public required string ConfirmPassword { get; set; }
 
-        public required IFormFile CoverLetterFile { get; set; }  
-        public required IFormFile ResumeFile { get; set; }  
+        [Required]
+        [Display(Name = "Cover Letter file")]
+        [DataType(DataType.Upload)]
+        public IFormFile CoverLetterFile { get; set; }
+
+        [Required]
+        [Display(Name = "Resume file")]
+        [DataType(DataType.Upload)]
+        public IFormFile ResumeFile { get; set; }  
 
         [Required]
         public required string SelectedCourse { get; set; }

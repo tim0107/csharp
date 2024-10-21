@@ -19,6 +19,24 @@ namespace CSIROInterviewApp
                                                 .Build();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+            builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", option =>
+            {
+                option.Cookie.Name = "MyCookieAuth";
+                option.LoginPath = "/Account/Login?role=user";
+                option.AccessDeniedPath = "/Account/AccessDenied";
+            });
+
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireClaim("Role", "Admin");
+                });
+                option.AddPolicy("User", policy =>
+                {
+                    policy.RequireClaim("Role", "User");
+                });
+            });
 
             builder.Services.AddDbContext<ApplicationDataContext>(options =>
             {
@@ -26,15 +44,17 @@ namespace CSIROInterviewApp
                 options.UseSqlServer(connectionString);
             });
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedEmail = true;
-            }
-            )
-                .AddEntityFrameworkStores<ApplicationDataContext>()
-                .AddDefaultTokenProviders();
+            //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedEmail = true;
+            //}
+            //)
+            //    .AddEntityFrameworkStores<ApplicationDataContext>()
+            //    .AddDefaultTokenProviders();
 
             var app = builder.Build();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

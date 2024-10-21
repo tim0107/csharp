@@ -1,0 +1,65 @@
+﻿@model UserViewModel
+@{
+    string message = null;
+    if (TempData["SenMailStatus"] is not null)
+    {
+        message = TempData["SenMailStatus"] as string;
+    }
+}
+
+<div class="container">
+
+    <h2 class="text-center m-3">User List</h2>
+
+    <form asp-action="filter" method="get">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4 text-right input-group">
+                <input asp-for="GPA" class="form-control m-2" type="text" name="gpa" placeholder="Enter your GPA" />
+                <button class="btn btn-primary m-2">Filter</button>
+            </div>
+        </div>
+    </form>
+    @if (message is not null)
+    {
+        <div class="m-2">
+            <label class="alert alert-success">@message</label>
+        </div>
+    }
+
+    <table class="table table-bordered border-primary">
+        <thead>
+            <tr>
+                <th>User Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone number</th>
+                <th>Course</th>
+                <th>GPA</th>
+                <th>University</th>
+                <th>Cover letter file</th>
+                <th>Resume file</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.UserId</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Course</td>
+                    <td>@user.GPA</td>
+                    <td>@user.University</td>
+                    <td>@user.CoverLetterFilePath</td>
+                    <td>@user.ResumeFilePath</td>
+                    <td>
+                        <a class="btn btn-secondary" href="/admin/send-invitation/@user.UserId" >Send invitation</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
