@@ -17,16 +17,13 @@ namespace CSIROInterviewApp
             IConfigurationRoot configuration = new ConfigurationBuilder()
                                                 .AddJsonFile("./config.json")
                                                 .Build();
-            builder.Services.AddControllers();
+            builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<ApplicationDataContext>(options =>
             {
                 var connectionString = configuration.GetConnectionString("DBConnection");
                 options.UseSqlServer(connectionString);
-
-
-
             });
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -38,10 +35,11 @@ namespace CSIROInterviewApp
                 .AddDefaultTokenProviders();
 
             var app = builder.Build();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-
-            bool isDevelopment = configuration.GetValue<bool>("EnableDeveloperExceptions") == true;
+            bool isDevelopment = configuration.GetValue<bool>("EnableDeveloperExceptions");
             if (isDevelopment)
             {
                 app.UseDeveloperExceptionPage();
@@ -49,11 +47,9 @@ namespace CSIROInterviewApp
             else
             {
                 app.UseExceptionHandler("/error.html");
-
-               
-
-                 app.Run();
             }
+
+            app.Run();
         }
     }
 }

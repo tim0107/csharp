@@ -44,8 +44,8 @@ namespace CSIROInterviewApp.Controllers
                     "Master of Information Technology",
                     "Master of Science (Statistics)"
                 },
-                ResumeFile = string.Empty,
-                CoverLetterFile = string.Empty
+                ResumeFile = null,
+                CoverLetterFile = null
             };
 
             return View(model); 
@@ -72,8 +72,8 @@ namespace CSIROInterviewApp.Controllers
                 //handle resume and cover letter
 
                 
-                var coverLetterPath = null;
-                var resumeFilePath = null;
+                var coverLetterPath = string.Empty;
+                var resumeFilePath = string.Empty;
 
                 if (model.CoverLetterFile != null)
                 {
