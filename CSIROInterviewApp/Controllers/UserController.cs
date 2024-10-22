@@ -26,24 +26,24 @@ namespace CSIROInterviewApp.Controllers
         {
             _context = context;
         }
-        
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
         {
             var model = new RegisterViewModel
             {
-                Username = string.Empty,  
-                GPA = 0.0,  
-                University = string.Empty, 
+                Username = string.Empty,
+                GPA = 0.0,
+                University = string.Empty,
                 Email = string.Empty,
-                Password = string.Empty,  
-                ConfirmPassword = string.Empty,  
+                Password = string.Empty,
+                ConfirmPassword = string.Empty,
                 SelectedCourse = string.Empty,
                 Courses = _context.Courses.Select(c => c.CourseName).ToList()
             };
 
-            return View(model); 
+            return View(model);
         }
 
         [HttpPost]
@@ -55,15 +55,19 @@ namespace CSIROInterviewApp.Controllers
                 var selectedCourse = await _context.Courses
                     .FirstOrDefaultAsync(c => c.CourseName == model.SelectedCourse);
 
+                if (_context.Users.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError(nameof(RegisterViewModel.Email), "Email already in use.");
+                    return View(model);
+                }
+
                 if (selectedCourse == null)
                 {
                     ModelState.AddModelError("", "Selected course not found.");
                     return View(model);
                 }
-                var university = await _context.Universities
-                  .FirstOrDefaultAsync(u => u.UniversityName == model.University);
 
-                if (model.GPA < 3 || model.GPA > 4)
+                if (model.GPA < 3 & model.GPA <= 4)
                 {
                     ModelState.AddModelError(nameof(EditViewModel.GPA), "GPA must be between 3.0 and 4.0");
                     return View(model);
@@ -76,7 +80,7 @@ namespace CSIROInterviewApp.Controllers
 
                 if (model.CoverLetterFile != null)
                 {
-                    
+
                     var coverLetterFileName = Path.GetFileName(model.CoverLetterFile.FileName);
                     var coverLetterUploadPath = Path.Combine("Uploads", model.Username, "CoverLetters", coverLetterFileName);
 
@@ -94,7 +98,7 @@ namespace CSIROInterviewApp.Controllers
 
                 if (model.ResumeFile != null)
                 {
-                    
+
                     var resumeFileName = Path.GetFileName(model.ResumeFile.FileName);
                     var resumeUploadPath = Path.Combine("Uploads", model.Username, "Resumes", resumeFileName);
 
@@ -115,12 +119,12 @@ namespace CSIROInterviewApp.Controllers
                     Name = model.Username,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-                    CoverLetter =  coverLetterPath,
+                    CoverLetter = coverLetterPath,
                     ResumeFilePath = resumeFilePath,
                     GPA = (float)model.GPA,
                     PasswordHash = HashPassword(model.Password),
                     Course = selectedCourse,
-                    University = university,
+                    University = model.University,
                     Applications = new List<Application>(),
                     Invitations = new List<Invitation>()
                 };
@@ -128,9 +132,7 @@ namespace CSIROInterviewApp.Controllers
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Profile", new {
-                    id = user.UserId
-                });
+                return RedirectToAction("Login", "Account");
             }
 
             return View(model);
@@ -140,21 +142,20 @@ namespace CSIROInterviewApp.Controllers
         public IActionResult Edit(int id)
         {
             var user = _context.Users
-                .Include(u => u.University)
                 .Include(u => u.Course)
                 .FirstOrDefault(u => u.UserId == id);
             if (user is null)
             {
                 return NotFound();
             }
-            
+
             var model = new EditViewModel
             {
                 Id = user.UserId,
                 Username = user.Name,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                University = user.University?.UniversityName,
+                University = user.University,
                 GPA = user.GPA,
                 SelectedCourse = user.Course?.CourseName,
                 Courses = _context.Courses.Select(c => c.CourseName).ToList(),
@@ -165,18 +166,18 @@ namespace CSIROInterviewApp.Controllers
             return View(model);
         }
 
-        
+
         [HttpPost]
         public IActionResult Edit(EditViewModel model)
         {
             if (ModelState.IsValid)
             {
-                
 
-                return RedirectToAction("Profile", "User");  
+
+                return RedirectToAction("Profile", "User");
             }
 
-            
+
             model.Courses = new List<string>
             {
                 "Master of Data Science",
@@ -185,15 +186,14 @@ namespace CSIROInterviewApp.Controllers
                 "Master of Science (Statistics)"
             };
 
-            return View(model);  
+            return View(model);
         }
 
-        
+
         [HttpGet]
         public IActionResult Profile(int id)
         {
             var user = _context.Users
-                .Include(u => u.University)
                 .Include(u => u.Course)
                 .FirstOrDefault(u => u.UserId == id);
             if (user is null)
@@ -207,14 +207,14 @@ namespace CSIROInterviewApp.Controllers
                 Email = user.Email,
                 Username = user.Name,
                 GPA = user.GPA,
-                University = user.University?.UniversityName,
+                University = user.University,
                 SelectedCourse = user.Course?.CourseName,
                 PhoneNumber = user.PhoneNumber,
                 CoverLetterFile = GetFileNameFromPath(user.CoverLetter),
                 ResumeFile = GetFileNameFromPath(user.ResumeFilePath)
             };
 
-            return View(model);  
+            return View(model);
         }
 
         [HttpPost]
@@ -244,18 +244,7 @@ namespace CSIROInterviewApp.Controllers
                 #endregion
 
                 #region Update university
-                var university = await _context.Universities
-                          .FirstOrDefaultAsync(u => u.UniversityName == model.University);
-
-                if (university is null)
-                {
-                    ModelState.AddModelError("", "Selected course not found.");
-                    return View("Edit", model);
-                }
-                else
-                {
-                    user.University = university;
-                }
+                user.University = model.University;
                 #endregion
 
                 #region Update GPA
@@ -271,7 +260,7 @@ namespace CSIROInterviewApp.Controllers
                 #endregion
 
                 #region Update phone number
-                user.PhoneNumber = model.PhoneNumber; 
+                user.PhoneNumber = model.PhoneNumber;
                 #endregion
 
                 #region Update Cover letter file
@@ -310,7 +299,7 @@ namespace CSIROInterviewApp.Controllers
                         await model.ResumeFile.CopyToAsync(stream);
                     }
                     user.ResumeFilePath = resumeUploadPath;
-                } 
+                }
                 #endregion
 
                 _context.Users.Update(user);

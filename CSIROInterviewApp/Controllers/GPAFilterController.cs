@@ -23,7 +23,6 @@ namespace CSIROInterviewApp.Controllers
             // Retrieve all users, filtering by the optional GPA threshold if provided
             var users = await _context.Users
                 .Include(u => u.Course)
-                .Include(u => u.University)
                 .Where(u => !threshold.HasValue || u.GPA >= threshold)
                 .ToListAsync();
 

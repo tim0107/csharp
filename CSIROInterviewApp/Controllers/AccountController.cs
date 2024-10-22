@@ -94,7 +94,7 @@ namespace CSIROInterviewApp.Controllers
                         await model.ResumeFile.CopyToAsync(stream);
                     }
                 }
-                var university = await _context.Universities.FirstOrDefaultAsync(u => u.UniversityName == model.University);
+                
                 var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseName == model.SelectedCourse);
 
 
@@ -104,7 +104,7 @@ namespace CSIROInterviewApp.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     GPA = (float)model.GPA,
-                    University = university,
+                    University = model.University,
                     PasswordHash = HashPassword(model.Password),
                     Course = course,
                     CoverLetter = coverLetterPath,

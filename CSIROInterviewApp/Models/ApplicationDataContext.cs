@@ -26,6 +26,16 @@ public class ApplicationDataContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Course>().HasData(
+                new Course { CourseId = 1, CourseName = "Master of Data Science" },
+                new Course { CourseId = 2, CourseName = "Master of Artificial Intelligence" },
+                new Course { CourseId = 3, CourseName = "Master of Information Technology" },
+                new Course { CourseId = 4, CourseName = "Master of Science (Statistics)" }
+            );
+
+        modelBuilder.Entity<Admin>().HasData(
+                new Admin { AdminId = 1, Name = "Administrator", Email = "admin@csiro@interviewapp", PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=" , AdminApplications = null}
+            );
         base.OnModelCreating(modelBuilder);
 
         /* // Relationships
