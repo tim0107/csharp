@@ -63,7 +63,7 @@ namespace CSIROInterviewApp.Controllers
                 var university = await _context.Universities
                   .FirstOrDefaultAsync(u => u.UniversityName == model.University);
 
-                if (model.GPA >= 3 & model.GPA <= 4)
+                if (model.GPA < 3 || model.GPA > 4)
                 {
                     ModelState.AddModelError(nameof(EditViewModel.GPA), "GPA must be between 3.0 and 4.0");
                     return View(model);
