@@ -28,6 +28,7 @@ namespace CSIROInterviewApp.Controllers
         }
         
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             var model = new RegisterViewModel
@@ -46,6 +47,7 @@ namespace CSIROInterviewApp.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
