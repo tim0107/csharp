@@ -19,12 +19,13 @@ namespace CSIROInterviewApp
                                                 .Build();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-            builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", option =>
-            {
-                option.Cookie.Name = "MyCookieAuth";
-                option.LoginPath = "/Account/Login?role=user";
-                option.AccessDeniedPath = "/Account/AccessDenied";
-            });
+            builder.Services.AddAuthentication()
+                .AddCookie(option =>
+                {
+                    option.Cookie.Name = "MyCookieAuth";
+                    option.LoginPath = "/Account/Login";
+                    option.AccessDeniedPath = "/Account/AccessDenied";
+                });
 
             builder.Services.AddAuthorization(option =>
             {

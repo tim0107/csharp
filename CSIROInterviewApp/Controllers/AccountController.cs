@@ -9,6 +9,7 @@ using System;
 using CSIROInterviewApp.Models.CSIROInterviewApp.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CSIROInterviewApp.Controllers
 {
@@ -120,15 +121,12 @@ namespace CSIROInterviewApp.Controllers
             return View(model);
         }
 
-
-
         [HttpGet]
         public IActionResult Login(string role)
         {
             TempData["Role"] = role;
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -149,9 +147,9 @@ namespace CSIROInterviewApp.Controllers
                         new Claim("Role", "Admin"),
                         new Claim("Email", model.Email)
                     };
-                    var identityAdmin = new ClaimsIdentity(claimsAdmin, "MyCookieAuth");
+                    var identityAdmin = new ClaimsIdentity(claimsAdmin, CookieAuthenticationDefaults.AuthenticationScheme);
                     var claimsPrincipalAdmin = new ClaimsPrincipal(identityAdmin);
-                    await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipalAdmin);
+                    await HttpContext.SignInAsync(claimsPrincipalAdmin);
 
                     return RedirectToAction("Index", "Admin");
                 }
@@ -170,9 +168,9 @@ namespace CSIROInterviewApp.Controllers
                     new Claim("Role", "User"),
                     new Claim("Email", model.Email),
                 };
-                var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var claimsPrincipal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+                await HttpContext.SignInAsync(claimsPrincipal);
 
                 return RedirectToAction("Profile", "User", new { id = user.UserId });
             }
