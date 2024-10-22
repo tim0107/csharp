@@ -6,7 +6,7 @@ namespace CSIROInterviewApp.ViewModel
 {
     public class UserViewModel
     {
-        public float? GPA { get; set; }
+        public string? Name { get; set; }
         public List<UserDetail> Users { get; set; }
     }
 

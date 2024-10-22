@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 
 namespace CSIROInterviewApp.Controllers
@@ -24,6 +25,84 @@ namespace CSIROInterviewApp.Controllers
         {
             _context = context;
             _configuration = configuration;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string? name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var users = await _context.Users
+                .Where(u=> u.Name.Contains(name))
+                .Select(u => new UserDetail
+                {
+                    UserId = u.UserId,
+                    Name = u.Name,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Course = u.Course.CourseName,
+                    GPA = u.GPA,
+                    University = u.University.UniversityName,
+                    CoverLetterFilePath = u.CoverLetter,
+                    ResumeFilePath = u.ResumeFilePath,
+                })
+                .ToListAsync();
+
+            users.ForEach(user =>
+            {
+                user.CoverLetterFilePath = GetFileNameFromPath(user.CoverLetterFilePath);
+                user.ResumeFilePath = GetFileNameFromPath(user.ResumeFilePath);
+            });
+
+            var model = new UserViewModel
+            {
+                Name = name,
+                Users = users
+            };
+
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Filter(string? name)
+        {
+            var users = _context.Users
+                .OrderByDescending(u => u.GPA)
+                .Select(u => new UserDetail
+                {
+                    UserId = u.UserId,
+                    Name = u.Name,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Course = u.Course.CourseName,
+                    GPA = u.GPA,
+                    University = u.University.UniversityName,
+                    CoverLetterFilePath = u.CoverLetter,
+                    ResumeFilePath = u.ResumeFilePath,
+                });
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                users = users.Where(u => u.Name.Contains(name));
+            }
+
+            var data = await users.ToListAsync();
+            data.ForEach(user =>
+            {
+                user.CoverLetterFilePath = GetFileNameFromPath(user.CoverLetterFilePath);
+                user.ResumeFilePath = GetFileNameFromPath(user.ResumeFilePath);
+            });
+
+            var model = new UserViewModel
+            {
+                Name = name,
+                Users = data
+            };
+
+            return View("Index", model);
         }
 
         // GET: Admin List
@@ -55,43 +134,6 @@ namespace CSIROInterviewApp.Controllers
             };
 
             return View(model); // Return the view with the list of admins
-        }
-
-        public async Task<IActionResult> Filter(float gpa)
-        {
-            if (gpa is 0)
-            {
-                return RedirectToAction("Index");
-            }
-
-            var users = await _context.Users
-                .Where(u => u.GPA == gpa)
-                .Select(u => new UserDetail
-                {
-                    UserId = u.UserId,
-                    Name = u.Name,
-                    Email = u.Email,
-                    PhoneNumber = u.PhoneNumber,
-                    Course = u.Course.CourseName,
-                    GPA = u.GPA,
-                    University = u.University.UniversityName,
-                    CoverLetterFilePath = u.CoverLetter,
-                    ResumeFilePath = u.ResumeFilePath,
-                }).ToListAsync();
-
-            users.ForEach(user =>
-            {
-                user.CoverLetterFilePath = GetFileNameFromPath(user.CoverLetterFilePath);
-                user.ResumeFilePath = GetFileNameFromPath(user.ResumeFilePath);
-            });
-
-            var model = new UserViewModel
-            {
-                GPA = gpa,
-                Users = users
-            };
-
-            return View("Index", model); // Return the view with the list of admins
         }
 
         [HttpGet]

@@ -11,15 +11,16 @@
 
     <h2 class="text-center m-3">User List</h2>
 
-    <form asp-action="filter" method="get">
+    @* <form asp-action="filter" method="get"> *@
         <div class="row">
-            <div class="col-8"></div>
-            <div class="col-4 text-right input-group">
-                <input asp-for="GPA" class="form-control m-2" type="text" name="gpa" placeholder="Enter your GPA" />
-                <button class="btn btn-primary m-2">Filter</button>
+            <div class="col-7"></div>
+            <div class="col-5 text-right input-group">
+                <input asp-for="Name" class="form-control m-2" type="text" name="name" placeholder="Enter name" />
+                <button class="btn btn-primary m-2" onclick="search()">Search</button>
+                <button class="btn btn-primary m-2" onclick="filter()">Filter</button>
             </div>
         </div>
-    </form>
+    @* </form> *@
     @if (message is not null)
     {
         <div class="m-2">
@@ -63,3 +64,28 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function search() {
+        debugger;
+        
+        const name = document.querySelector('input[name="name"]');
+        if (name.value) {
+            window.location.href = `/admin/search?name=${name.value}`;
+        }
+        else {
+            window.location.href = `/admin/search`;
+        }
+    }
+    function filter() {
+        debugger;
+        
+        const name = document.querySelector('input[name="name"]');
+        if (name.value) {
+            window.location.href = `/admin/filter?name=${name.value}`;
+        }
+        else {
+            window.location.href = `/admin/filter`;
+        }
+    }
+</script>
