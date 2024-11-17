@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model EmailViewModel
+<style>
+    textarea {
+        min-height: 300px;
+    }
+</style>
+<h2 class="text-center m-3">Send Invitation email</h2>
+<form method="post">
+    <div class="form-group">
+        <div class="row mt-2">
+            <label>To:</label>
+            <input class="form-control" asp-for="To"/>
+        </div>
+        <div class="row mt-2">
+            <label>Cc:</label>
+            <input class="form-control" asp-for="Cc"/>
+        </div>
+        <div class="row mt-2">
+            <label>Subject:</label>
+            <input class="form-control" asp-for="Subject"/>
+        </div>
+        <div class="row mt-3">
+            <label>Content:</label>
+            <textarea class="form-control" asp-for="Body" spellcheck="false"></textarea>
+        </div>
+        <div class="row mt-3">
+            <button class="btn btn-primary mt-3 mx-auto w-25">Send</button>
+        </div>
+    </div>
+</form>

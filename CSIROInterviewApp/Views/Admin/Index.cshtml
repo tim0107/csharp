@@ -57,7 +57,7 @@
                     <td><a href="@user.CoverLetterDownloadUrl" download="@user.CoverLetterFilePath">@user.CoverLetterFilePath</a></td>
                     <td><a href="@user.ResumeDownloadUrl" download="@user.ResumeFilePath">@user.ResumeFilePath</a></td>
                     <td>
-                        <a class="btn btn-secondary" href="/admin/send-invitation/@user.UserId" >Send invitation</a>
+                        <a class="btn btn-secondary" asp-controller="Email" asp-action="Index" asp-route-id="@user.UserId">Send invitation</a>
                     </td>
                 </tr>
             }
