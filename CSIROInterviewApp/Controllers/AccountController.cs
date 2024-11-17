@@ -138,7 +138,7 @@ namespace CSIROInterviewApp.Controllers
                     var admin = _context.Admins.FirstOrDefault(a => a.Email == model.Email);
                     if (admin is null || !VerifyPassword(model.Password, admin.PasswordHash))
                     {
-                        ModelState.AddModelError("", "Invalid email or password.");
+                        ModelState.AddModelError(nameof(LoginViewModel.Email), "Invalid email or password.");
                         return View(model);
                     }
 
