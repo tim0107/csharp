@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CSIROInterviewApp.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class initialdatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,7 +96,7 @@ namespace CSIROInterviewApp.Migrations
                     CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ResumeFilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,8 +111,7 @@ namespace CSIROInterviewApp.Migrations
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RoleId");
                     table.ForeignKey(
                         name: "FK_Users_Universities_UniversityId",
                         column: x => x.UniversityId,
@@ -222,6 +223,22 @@ namespace CSIROInterviewApp.Migrations
                         principalTable: "Applications",
                         principalColumn: "ApplicationId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Admins",
+                columns: new[] { "AdminId", "Email", "Name", "PasswordHash" },
+                values: new object[] { 1, "admin@csiro.interviewapp", "Administrator", "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=" });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "CourseId", "CourseName" },
+                values: new object[,]
+                {
+                    { 1, "Master of Data Science" },
+                    { 2, "Master of Artificial Intelligence" },
+                    { 3, "Master of Information Technology" },
+                    { 4, "Master of Science (Statistics)" }
                 });
 
             migrationBuilder.CreateIndex(

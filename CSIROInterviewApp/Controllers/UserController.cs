@@ -40,7 +40,8 @@ namespace CSIROInterviewApp.Controllers
                 Password = string.Empty,
                 ConfirmPassword = string.Empty,
                 SelectedCourse = string.Empty,
-                Courses = _context.Courses.Select(c => c.CourseName).ToList()
+                Courses = _context.Courses.Select(c => c.CourseName).ToList(),
+                Universities = _context.Universities.Select(u => u.UniversityName).ToList(),
             };
 
             return View(model);
@@ -50,7 +51,7 @@ namespace CSIROInterviewApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
                 var selectedCourse = await _context.Courses
                     .FirstOrDefaultAsync(c => c.CourseName == model.SelectedCourse);
@@ -63,7 +64,14 @@ namespace CSIROInterviewApp.Controllers
 
                 if (selectedCourse == null)
                 {
-                    ModelState.AddModelError("", "Selected course not found.");
+                    ModelState.AddModelError(nameof(RegisterViewModel.SelectedCourse), "Selected course not found.");
+                    return View(model);
+                }
+
+                var selectedUniversity = await _context.Universities.FirstOrDefaultAsync(u => u.UniversityName == model.University);
+                if (selectedUniversity is null)
+                {
+                    ModelState.AddModelError(nameof(RegisterViewModel.University), "Selected university not found.");
                     return View(model);
                 }
 
@@ -124,7 +132,7 @@ namespace CSIROInterviewApp.Controllers
                     GPA = (float)model.GPA,
                     PasswordHash = HashPassword(model.Password),
                     Course = selectedCourse,
-                    University = model.University,
+                    UniversityId = selectedUniversity.UniversityId,
                     Applications = new List<Application>(),
                     Invitations = new List<Invitation>()
                 };
@@ -143,6 +151,7 @@ namespace CSIROInterviewApp.Controllers
         {
             var user = _context.Users
                 .Include(u => u.Course)
+                .Include(u => u.University)
                 .FirstOrDefault(u => u.UserId == id);
             if (user is null)
             {
@@ -155,7 +164,8 @@ namespace CSIROInterviewApp.Controllers
                 Username = user.Name,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                University = user.University,
+                University = user.University.UniversityName,
+                Universities = _context.Universities.Select(u => u.UniversityName).ToList(),
                 GPA = user.GPA,
                 SelectedCourse = user.Course?.CourseName,
                 Courses = _context.Courses.Select(c => c.CourseName).ToList(),
@@ -195,6 +205,7 @@ namespace CSIROInterviewApp.Controllers
         {
             var user = _context.Users
                 .Include(u => u.Course)
+                .Include(u => u.University)
                 .FirstOrDefault(u => u.UserId == id);
             if (user is null)
             {
@@ -207,7 +218,7 @@ namespace CSIROInterviewApp.Controllers
                 Email = user.Email,
                 Username = user.Name,
                 GPA = user.GPA,
-                University = user.University,
+                University = user.University.UniversityName,
                 SelectedCourse = user.Course?.CourseName,
                 PhoneNumber = user.PhoneNumber,
                 CoverLetterFile = GetFileNameFromPath(user.CoverLetter),
@@ -244,7 +255,16 @@ namespace CSIROInterviewApp.Controllers
                 #endregion
 
                 #region Update university
-                user.University = model.University;
+                var selectedUniversity = await _context.Universities.FirstOrDefaultAsync(u => u.UniversityName == model.University);
+                if (selectedUniversity == null)
+                {
+                    ModelState.AddModelError(nameof(EditViewModel.University), "Selected course not found.");
+                    return View("Edit", model);
+                }
+                else
+                {
+                    user.University = selectedUniversity;
+                }
                 #endregion
 
                 #region Update GPA

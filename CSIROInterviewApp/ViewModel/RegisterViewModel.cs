@@ -16,6 +16,7 @@ namespace CSIROInterviewApp.ViewModel
         [Required]
         public required string University { get; set; }
 
+        public List<string>? Universities { get; set; }
 
         public string PhoneNumber { get; set; }
 

@@ -30,7 +30,10 @@
             [Range(0, 4.0)]
             public required float GPA { get; set; }
 
-            public required string University { get; set; }
+            public int UniversityId { get; set; }
+
+            [ForeignKey(nameof(UniversityId))]
+            public University University { get; set; }
 
             public required string CoverLetter { get; set; }
             public required string ResumeFilePath { get; set; }

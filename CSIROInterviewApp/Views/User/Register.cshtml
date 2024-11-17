@@ -30,9 +30,18 @@
                     <span asp-validation-for="GPA" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                @* <div class="form-group">
                     <label asp-for="University" class="control-label"></label>
                     <input asp-for="University" class="form-control" type="text" placeholder="Enter your University" />
+                    <span asp-validation-for="University" class="text-danger"></span>
+                </div> *@
+
+                <!-- Course Dropdown -->
+                <div class="form-group">
+                    <label asp-for="University" class="control-label">University</label>
+                    <select asp-for="University" asp-items="@(new SelectList(Model.Universities))" class="form-control">
+                        <option value="">Select a University</option>
+                    </select>
                     <span asp-validation-for="University" class="text-danger"></span>
                 </div>
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CSIROInterviewApp.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    [Migration("20241009150032_firstMigration")]
-    partial class firstMigration
+    [Migration("20241117063024_initial database")]
+    partial class initialdatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,15 @@ namespace CSIROInterviewApp.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            AdminId = 1,
+                            Email = "admin@csiro.interviewapp",
+                            Name = "Administrator",
+                            PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI="
+                        });
                 });
 
             modelBuilder.Entity("CSIROInterviewApp.Models.CSIROInterviewApp.Models.Application", b =>
@@ -188,7 +197,7 @@ namespace CSIROInterviewApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<int>("UniversityId")
@@ -221,6 +230,28 @@ namespace CSIROInterviewApp.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            CourseName = "Master of Data Science"
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            CourseName = "Master of Artificial Intelligence"
+                        },
+                        new
+                        {
+                            CourseId = 3,
+                            CourseName = "Master of Information Technology"
+                        },
+                        new
+                        {
+                            CourseId = 4,
+                            CourseName = "Master of Science (Statistics)"
+                        });
                 });
 
             modelBuilder.Entity("CSIROInterviewApp.Models.GPAFilter", b =>
@@ -368,11 +399,9 @@ namespace CSIROInterviewApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CSIROInterviewApp.Models.Role", "Role")
+                    b.HasOne("CSIROInterviewApp.Models.Role", null)
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("CSIROInterviewApp.Models.University", "University")
                         .WithMany("Users")
@@ -381,8 +410,6 @@ namespace CSIROInterviewApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-
-                    b.Navigation("Role");
 
                     b.Navigation("University");
                 });

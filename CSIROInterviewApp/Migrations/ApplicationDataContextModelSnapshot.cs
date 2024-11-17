@@ -104,6 +104,15 @@ namespace CSIROInterviewApp.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            AdminId = 1,
+                            Email = "admin@csiro.interviewapp",
+                            Name = "Administrator",
+                            PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI="
+                        });
                 });
 
             modelBuilder.Entity("CSIROInterviewApp.Models.CSIROInterviewApp.Models.Application", b =>
@@ -188,11 +197,7 @@ namespace CSIROInterviewApp.Migrations
                     b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("University")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UniversityId")
+                    b.Property<int>("UniversityId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");
@@ -222,6 +227,28 @@ namespace CSIROInterviewApp.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            CourseName = "Master of Data Science"
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            CourseName = "Master of Artificial Intelligence"
+                        },
+                        new
+                        {
+                            CourseId = 3,
+                            CourseName = "Master of Information Technology"
+                        },
+                        new
+                        {
+                            CourseId = 4,
+                            CourseName = "Master of Science (Statistics)"
+                        });
                 });
 
             modelBuilder.Entity("CSIROInterviewApp.Models.GPAFilter", b =>
@@ -373,11 +400,15 @@ namespace CSIROInterviewApp.Migrations
                         .WithMany("Users")
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("CSIROInterviewApp.Models.University", null)
+                    b.HasOne("CSIROInterviewApp.Models.University", "University")
                         .WithMany("Users")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("UniversityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("University");
                 });
 
             modelBuilder.Entity("CSIROInterviewApp.Models.Invitation", b =>

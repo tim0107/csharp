@@ -34,7 +34,7 @@ public class ApplicationDataContext : DbContext
             );
 
         modelBuilder.Entity<Admin>().HasData(
-                new Admin { AdminId = 1, Name = "Administrator", Email = "admin@csiro@interviewapp", PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=" , AdminApplications = null}
+                new Admin { AdminId = 1, Name = "Administrator", Email = "admin@csiro.interviewapp", PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=" , AdminApplications = null}
             );
         base.OnModelCreating(modelBuilder);
 

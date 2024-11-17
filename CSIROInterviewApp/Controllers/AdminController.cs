@@ -45,7 +45,7 @@ namespace CSIROInterviewApp.Controllers
                     PhoneNumber = u.PhoneNumber,
                     Course = u.Course.CourseName,
                     GPA = u.GPA,
-                    University = u.University,
+                    University = u.University.UniversityName,
                     CoverLetterFilePath = u.CoverLetter,
                     ResumeFilePath = u.ResumeFilePath,
                 })
@@ -79,7 +79,7 @@ namespace CSIROInterviewApp.Controllers
                     PhoneNumber = u.PhoneNumber,
                     Course = u.Course.CourseName,
                     GPA = u.GPA,
-                    University = u.University,
+                    University = u.University.UniversityName,
                     CoverLetterFilePath = u.CoverLetter,
                     ResumeFilePath = u.ResumeFilePath,
                 });
@@ -117,7 +117,7 @@ namespace CSIROInterviewApp.Controllers
                 PhoneNumber = u.PhoneNumber,
                 Course = u.Course.CourseName,
                 GPA = u.GPA,
-                University = u.University,
+                University = u.University.UniversityName,
                 CoverLetterFilePath = u.CoverLetter,
                 ResumeFilePath = u.ResumeFilePath,
                 CoverLetterDownloadUrl = u.CoverLetter,

@@ -104,7 +104,6 @@ namespace CSIROInterviewApp.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     GPA = (float)model.GPA,
-                    University = model.University,
                     PasswordHash = HashPassword(model.Password),
                     Course = course,
                     CoverLetter = coverLetterPath,
@@ -133,7 +132,7 @@ namespace CSIROInterviewApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if ((TempData["Role"] as string)?.ToLower() == "admin")
+                if ((TempData.Peek("Role") as string)?.ToLower() == "admin")
                 {
                     var admin = _context.Admins.FirstOrDefault(a => a.Email == model.Email);
                     if (admin is null || !VerifyPassword(model.Password, admin.PasswordHash))
@@ -159,7 +158,7 @@ namespace CSIROInterviewApp.Controllers
 
                 if (user is null || !VerifyPassword(model.Password, user.PasswordHash))
                 {
-                    ModelState.AddModelError("", "Invalid email or password.");
+                    ModelState.AddModelError(nameof(LoginViewModel.Email), "Invalid email or password.");
                     return View(model);
                 }
 
