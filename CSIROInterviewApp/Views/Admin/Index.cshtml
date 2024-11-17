@@ -54,8 +54,8 @@
                     <td>@user.Course</td>
                     <td>@user.GPA</td>
                     <td>@user.University</td>
-                    <td>@user.CoverLetterFilePath</td>
-                    <td>@user.ResumeFilePath</td>
+                    <td><a href="@user.CoverLetterDownloadUrl" download="@user.CoverLetterFilePath">@user.CoverLetterFilePath</a></td>
+                    <td><a href="@user.ResumeDownloadUrl" download="@user.ResumeFilePath">@user.ResumeFilePath</a></td>
                     <td>
                         <a class="btn btn-secondary" href="/admin/send-invitation/@user.UserId" >Send invitation</a>
                     </td>

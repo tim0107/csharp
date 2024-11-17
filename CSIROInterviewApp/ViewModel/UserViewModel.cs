@@ -28,5 +28,7 @@ namespace CSIROInterviewApp.ViewModel
 
         public string CoverLetterFilePath { get; set; }
         public string ResumeFilePath { get; set; }
+        public string CoverLetterDownloadUrl { get; set; }
+        public string ResumeDownloadUrl { get; set; }
     }
 }

@@ -120,6 +120,8 @@ namespace CSIROInterviewApp.Controllers
                 University = u.University,
                 CoverLetterFilePath = u.CoverLetter,
                 ResumeFilePath = u.ResumeFilePath,
+                CoverLetterDownloadUrl = u.CoverLetter,
+                ResumeDownloadUrl = u.ResumeFilePath
             }).ToListAsync();
 
             users.ForEach(user =>
