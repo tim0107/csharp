@@ -332,6 +332,11 @@ namespace CSIROInterviewApp.Controllers
                 });
             }
 
+            if (model.Universities is null)
+            {
+                model.Universities = _context.Universities.Select(u => u.UniversityName).ToList();
+            }
+
             return View("Edit", model);
         }
 
