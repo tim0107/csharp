@@ -51,6 +51,11 @@ namespace CSIROInterviewApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (model.Universities is null)
+            {
+                model.Universities = _context.Universities.Select(u =>u.UniversityName).ToList();
+            }
+
             if (ModelState.IsValid) 
             {
                 var selectedCourse = await _context.Courses
@@ -231,6 +236,16 @@ namespace CSIROInterviewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(EditViewModel model)
         {
+            if (model.Universities is null)
+            {
+                model.Universities = _context.Universities.Select(u => u.UniversityName).ToList();
+            }
+
+            if (model.Courses is  null)
+            {
+                model.Courses = _context.Courses.Select(c => c.CourseName).ToList();
+            }
+
             if (ModelState.IsValid)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == model.Id);
@@ -330,11 +345,6 @@ namespace CSIROInterviewApp.Controllers
                 {
                     id = user.UserId
                 });
-            }
-
-            if (model.Universities is null)
-            {
-                model.Universities = _context.Universities.Select(u => u.UniversityName).ToList();
             }
 
             return View("Edit", model);
